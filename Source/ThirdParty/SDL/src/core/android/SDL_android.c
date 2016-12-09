@@ -277,13 +277,16 @@ JNIEXPORT void JNICALL Java_org_libsdl_app_SDLActivity_onNativeSurfaceDestroyed(
     if (Android_Window == NULL || Android_Window->driverdata == NULL ) {
         return;
     }
-    
+
     _this =  SDL_GetVideoDevice();
+
     data = (SDL_WindowData *) Android_Window->driverdata;
     
     if (data->egl_surface != EGL_NO_SURFACE) {
         SDL_EGL_MakeCurrent(_this, NULL, NULL);
-        SDL_EGL_DestroySurface(_this, data->egl_surface);
+        
+        __android_log_print(ANDROID_LOG_INFO, "SDL", "onNativeSurfaceDestroyed(): Skipping call to SDL_EGL_DestroySurface (it causes Pure Virtual Function Called error)");
+        // SDL_EGL_DestroySurface(_this, data->egl_surface);
         data->egl_surface = EGL_NO_SURFACE;
     }
     
