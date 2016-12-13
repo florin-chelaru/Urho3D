@@ -592,6 +592,8 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
     
 #if __ANDROID__
     {
+        SDL_Log("Starting _this->egl_data->eglGetConfigAttrib()...");
+        
         /* Android docs recommend doing this!
          * Ref: http://developer.android.com/reference/android/app/NativeActivity.html 
          */
@@ -599,7 +601,7 @@ SDL_EGL_CreateSurface(_THIS, NativeWindowType nw)
         _this->egl_data->eglGetConfigAttrib(_this->egl_data->egl_display,
                                             _this->egl_data->egl_config, 
                                             EGL_NATIVE_VISUAL_ID, &format);
-
+        SDL_Log("Ended _this->egl_data->eglGetConfigAttrib()");
         ANativeWindow_setBuffersGeometry(nw, 0, 0, format);
     }
 #endif    
@@ -618,7 +620,9 @@ SDL_EGL_DestroySurface(_THIS, EGLSurface egl_surface)
     }
     
     if (egl_surface != EGL_NO_SURFACE) {
+        SDL_Log("Starting _this->egl_data->eglDestroySurface(_this->egl_data->egl_display, egl_surface);... [ptr: %d]", _this->egl_data->eglDestroySurface);
         _this->egl_data->eglDestroySurface(_this->egl_data->egl_display, egl_surface);
+        SDL_Log("Ended _this->egl_data->eglDestroySurface(_this->egl_data->egl_display, egl_surface);");
     }
 }
 
